@@ -1,0 +1,133 @@
+From ecf8648a0b50acd5b29c098e75193e89abeced07 Mon Sep 17 00:00:00 2001
+From: Jill Yan <zyan@talend.com>
+Date: Wed, 9 May 2018 18:13:43 +0800
+Subject: [PATCH] lesson2: show servicelocator collection
+
+---
+ src/app/actions/servicelocator.js    |  16 ++++++++++
+ src/app/configure.js                 |   3 +-
+ src/app/constants/servicelocators.js |   2 ++
+ src/assets/servicelocators.json      |  16 ++++++++++
+ src/assets/settings.json             |  15 ++++-----
+ 5 files changed, 44 insertions(+), 8 deletions(-)
+ create mode 100644 src/app/actions/servicelocator.js
+ create mode 100644 src/app/constants/servicelocators.js
+ create mode 100644 src/assets/servicelocators.json
+
+diff --git a/src/app/actions/servicelocator.js b/src/app/actions/servicelocator.js
+new file mode 100644
+index 0000000..bc7a2b2
+--- /dev/null
++++ b/src/app/actions/servicelocator.js
+@@ -0,0 +1,16 @@
++import {actions} from '@talend/react-cmf';
++import {GETTING_SERVICELOCATORS, ERROR_GETTING_SERVICELOCATORS} from '../constants/servicelocators';
++
++export function fetchSevivelocators(){
++	return actions.http.get('/servicelocators.json', {
++		// action type to dispatch before fetch
++		onSend: GETTING_SERVICELOCATORS,
++		// action type to dispatch on fetch error
++		onError: ERROR_GETTING_SERVICELOCATORS,
++		// CMF action config
++		// collectionId is the key where the result will be stored in app state
++		cmf: {
++			collectionId: 'servicelocators',
++		},
++	});
++}
+diff --git a/src/app/configure.js b/src/app/configure.js
+index 733f32a..2d32c37 100644
+--- a/src/app/configure.js
++++ b/src/app/configure.js
+@@ -3,6 +3,7 @@ import { registerAllContainers } from '@talend/react-containers/lib/register';
+ import redirect from './actions/redirect';
+ import { fetchDataSets } from './actions/dataset';
+ import { fetchDataStores } from './actions/datastore';
++import { fetchSevivelocators } from './actions/servicelocator';
+ 
+ import App from './components/App';
+ 
+@@ -22,7 +23,7 @@ export default {
+ 		 */
+ 		registerActionCreator('dataset:fetchAll', fetchDataSets);
+ 		registerActionCreator('datastore:fetchAll', fetchDataStores);
+-		registerActionCreator('servicelocator:fetchAll', fetchDataSets);
++		registerActionCreator('servicelocator:fetchAll', fetchSevivelocators);
+ 		registerActionCreator('redirect', redirect);
+ 	},
+ };
+diff --git a/src/app/constants/servicelocators.js b/src/app/constants/servicelocators.js
+new file mode 100644
+index 0000000..7aa9fda
+--- /dev/null
++++ b/src/app/constants/servicelocators.js
+@@ -0,0 +1,2 @@
++export const GETTING_SERVICELOCATORS = 'GETTING_SERVICELOCATORS';
++export const ERROR_GETTING_SERVICELOCATORS = 'ERROR_GETTING_SERVICELOCATORS';
+diff --git a/src/assets/servicelocators.json b/src/assets/servicelocators.json
+new file mode 100644
+index 0000000..cb456bd
+--- /dev/null
++++ b/src/assets/servicelocators.json
+@@ -0,0 +1,16 @@
++[
++  {
++    "id": 0,
++    "status": "available",
++    "endpoint": "http://localhost:8040/services/customers",
++    "uptime":"less than 1 min",
++    "namespace":"http://www.talend.org/rest/"   
++  },
++  {
++    "id": 1,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime":"just now",
++    "namespace":"http://www.talend.org/rest/"   
++  }
++]
+diff --git a/src/assets/settings.json b/src/assets/settings.json
+index dcd943f..40566d3 100644
+--- a/src/assets/settings.json
++++ b/src/assets/settings.json
+@@ -111,28 +111,29 @@
+       "didMountActionCreator": "servicelocator:fetchAll",
+       "sidepanel": { "_ref": "SidePanel#default" },
+       "list": {
+-        "collectionId": "datasets",
++        "collectionId": "servicelocators",
+         "list": {
+           "columns": [
+             { "key": "id", "label": "ID" },
+-            { "key": "label", "label": "Name" },
+-            { "key": "created",  "label": "Created" },
+-            { "key": "tags", "label": "Tags" }
++            { "key": "status", "label": "Status" },
++            { "key": "uptime", "label":"Uptime"},
++            { "key": "endpoint",  "label": "Service Endpoint" },
++            { "key": "namespace", "label": "Namespace" }
+           ]
+         },
+         "toolbar": {
+           "filter": {
+-            "placeholder": "Find a dataset"
++            "placeholder": "Find a servicelocator"
+           },
+           "sort": {
+             "options": [
+               { "id": "label", "name": "Name" },
+-              { "id": "created", "name": "Created" }
++              { "id": "status", "name": "Status" }
+             ]
+           }
+         },
+         "initialState": {
+-          "sortOn": "label"
++          "sortOn": "status"
+         }
+       }
+     }
+-- 
+2.7.2.windows.1
+

@@ -1,0 +1,33 @@
+From 8723c984e0dd9704b3a4edd89e713ff86a85f74c Mon Sep 17 00:00:00 2001
+From: Jill Yan <zyan@talend.com>
+Date: Fri, 11 May 2018 15:58:07 +0800
+Subject: [PATCH] step4 use middleware
+
+---
+ src/app/index.js        |   3 ++-
+ 1 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/app/index.js b/src/app/index.js
+index 904335e..3ce4652 100644
+--- a/src/app/index.js
++++ b/src/app/index.js
+@@ -9,6 +9,7 @@ import { render } from 'react-dom';
+ import { App, store as cmfstore, actions } from '@talend/react-cmf';
+ import { browserHistory } from 'react-router';
+ import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
++import logger from 'redux-logger';
+ 
+ import configure from './configure';
+ import appReducer from './reducers';
+@@ -28,7 +29,7 @@ cmfstore.setRouterMiddleware(routerMiddleware(browserHistory));
+ /**
+  * Register your app reducers
+  */
+-const store = cmfstore.initialize(appReducer);
++const store = cmfstore.initialize(appReducer, undefined, undefined, logger);
+ 
+ /**
+  * Fetch the CMF settings and configure the CMF app
+-- 
+2.7.2.windows.1
+

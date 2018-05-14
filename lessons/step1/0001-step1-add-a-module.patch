@@ -1,0 +1,103 @@
+From b642a6df9ef469f46dd2325dd5a00040305d64fc Mon Sep 17 00:00:00 2001
+From: Jill Yan <zyan@talend.com>
+Date: Tue, 8 May 2018 11:18:25 +0800
+Subject: [PATCH] step1:add a module
+
+Add a service locator module, but copy the view of datasets.
+---
+ src/app/configure.js     |  1 +
+ src/assets/settings.json | 47 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+
+diff --git a/src/app/configure.js b/src/app/configure.js
+index 857dc2a..733f32a 100644
+--- a/src/app/configure.js
++++ b/src/app/configure.js
+@@ -22,6 +22,7 @@ export default {
+ 		 */
+ 		registerActionCreator('dataset:fetchAll', fetchDataSets);
+ 		registerActionCreator('datastore:fetchAll', fetchDataStores);
++		registerActionCreator('servicelocator:fetchAll', fetchDataSets);
+ 		registerActionCreator('redirect', redirect);
+ 	},
+ };
+diff --git a/src/assets/settings.json b/src/assets/settings.json
+index 11ebe1c..dcd943f 100644
+--- a/src/assets/settings.json
++++ b/src/assets/settings.json
+@@ -22,6 +22,17 @@
+           "routerReplace": "/datastores"
+         }
+       }
++    },
++	 "menu:servicelocator": {
++      "id": "menu:servicelocator",
++      "label": "Service Locator",
++      "icon": "talend-folder",
++      "payload": {
++        "type": "MENU_LINK",
++        "cmf": {
++          "routerReplace": "/servicelocator"
++        }
++      }
+     }
+   },
+   "props": {
+@@ -95,6 +106,35 @@
+           "sortOn": "label"
+         }
+       }
++    },
++	"servicelocator": {
++      "didMountActionCreator": "servicelocator:fetchAll",
++      "sidepanel": { "_ref": "SidePanel#default" },
++      "list": {
++        "collectionId": "datasets",
++        "list": {
++          "columns": [
++            { "key": "id", "label": "ID" },
++            { "key": "label", "label": "Name" },
++            { "key": "created",  "label": "Created" },
++            { "key": "tags", "label": "Tags" }
++          ]
++        },
++        "toolbar": {
++          "filter": {
++            "placeholder": "Find a dataset"
++          },
++          "sort": {
++            "options": [
++              { "id": "label", "name": "Name" },
++              { "id": "created", "name": "Created" }
++            ]
++          }
++        },
++        "initialState": {
++          "sortOn": "label"
++        }
++      }
+     }
+   },
+   "routes": {
+@@ -114,12 +154,17 @@
+         "path": "datastores",
+         "component": "HomeListView",
+         "view": "datastores"
++      },
++	  {
++        "path": "servicelocator",
++        "component": "HomeListView",
++        "view": "servicelocator"
+       }
+     ]
+   },
+   "ref": {
+     "SidePanel#default" : {
+-      "actionIds": ["menu:datastores", "menu:datasets"]
++      "actionIds": ["menu:datastores", "menu:datasets","menu:servicelocator"]
+     }
+   }
+ }
+-- 
+2.7.2.windows.1
+

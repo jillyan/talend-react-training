@@ -1,0 +1,129 @@
+From b8b7ee23292a14e0f064b45b838b2b19f7af805b Mon Sep 17 00:00:00 2001
+From: jillyan <zyan@talend.com>
+Date: Sun, 13 May 2018 21:44:32 +0800
+Subject: [PATCH] step5
+
+--- 
+ src/app/actions/servicelocator.js |  4 ++++
+ src/app/configure.js              |  6 ++++-
+ src/assets/servicelocators.json   | 28 +++++++++++++++++++++++
+ src/assets/settings.json          | 15 +++++++++++--
+4 files changed, 44 insertions(+), 9 deletions(-)
+
+diff --git a/src/app/actions/servicelocator.js b/src/app/actions/servicelocator.js
+index bc7a2b2..158f37d 100644
+--- a/src/app/actions/servicelocator.js
++++ b/src/app/actions/servicelocator.js
+@@ -14,3 +14,7 @@ export function fetchSevivelocators(){
+ 		},
+ 	});
+ }
++
++export function refrshServiceLocators(){
++	return fetchSevivelocators();
++}
+diff --git a/src/app/configure.js b/src/app/configure.js
+index 2d32c37..6b614ea 100644
+--- a/src/app/configure.js
++++ b/src/app/configure.js
+@@ -3,7 +3,10 @@ import { registerAllContainers } from '@talend/react-containers/lib/register';
+ import redirect from './actions/redirect';
+ import { fetchDataSets } from './actions/dataset';
+ import { fetchDataStores } from './actions/datastore';
+-import { fetchSevivelocators } from './actions/servicelocator';
++import { fetchSevivelocators,
++	refrshServiceLocators,
++	getServiceLocatorStatusIcon
++} from './actions/servicelocator';
+ 
+ import App from './components/App';
+ 
+@@ -24,6 +27,7 @@ export default {
+ 		registerActionCreator('dataset:fetchAll', fetchDataSets);
+ 		registerActionCreator('datastore:fetchAll', fetchDataStores);
+ 		registerActionCreator('servicelocator:fetchAll', fetchSevivelocators);
++		registerActionCreator('servicelocator:refresh', refrshServiceLocators);
+ 		registerActionCreator('redirect', redirect);
+ 	},
+ };
+diff --git a/src/assets/servicelocators.json b/src/assets/servicelocators.json
+index cb456bd..f2bd20f 100644
+--- a/src/assets/servicelocators.json
++++ b/src/assets/servicelocators.json
+@@ -12,5 +12,33 @@
+     "endpoint": "http://localhost:8040/services/creator",
+     "uptime":"just now",
+     "namespace":"http://www.talend.org/rest/"   
++  },
++  {
++    "id": 2,
++    "status": "available",
++    "endpoint": "http://localhost:8040/services/customers",
++    "uptime":"less than 1 min",
++    "namespace":"http://www.talend.org/rest/"   
++  },
++  {
++    "id": 3,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime":"just now",
++    "namespace":"http://www.talend.org/rest/"   
++  },
++  {
++    "id": 4,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime":"just now",
++    "namespace":"http://www.talend.org/rest/"   
++  },
++  {
++    "id": 5,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime":"just now",
++    "namespace":"http://www.talend.org/rest/"   
+   }
+ ]
+diff --git a/src/assets/settings.json b/src/assets/settings.json
+index 40566d3..5bef27e 100644
+--- a/src/assets/settings.json
++++ b/src/assets/settings.json
+@@ -23,7 +23,7 @@
+         }
+       }
+     },
+-	 "menu:servicelocator": {
++    "menu:servicelocator": {
+       "id": "menu:servicelocator",
+       "label": "Service Locator",
+       "icon": "talend-folder",
+@@ -33,6 +33,13 @@
+           "routerReplace": "/servicelocator"
+         }
+       }
++    },
++    "servicelocator:refresh": {
++        "id": "servicelocator:refresh",
++        "label": "Refresh",
++        "bsStyle": "primary",
++        "icon": "talend-refresh",
++        "actionCreator": "servicelocator:refresh"
+     }
+   },
+   "props": {
+@@ -130,7 +137,11 @@
+               { "id": "label", "name": "Name" },
+               { "id": "status", "name": "Status" }
+             ]
+-          }
++          },
++          "pagination":{}
++        },
++        "actions": {
++          "left": ["servicelocator:refresh"]
+         },
+         "initialState": {
+           "sortOn": "status"
+-- 
+2.8.2.windows.1
+
