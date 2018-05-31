@@ -22,24 +22,6 @@
           "routerReplace": "/datastores"
         }
       }
-    },
-    "menu:servicelocator": {
-      "id": "menu:servicelocator",
-      "label": "Service Locator",
-      "icon": "talend-folder",
-      "payload": {
-        "type": "MENU_LINK",
-        "cmf": {
-          "routerReplace": "/servicelocator"
-        }
-      }
-    },
-    "servicelocator:refresh": {
-        "id": "servicelocator:refresh",
-        "label": "Refresh",
-        "bsStyle": "primary",
-        "icon": "talend-refresh",
-        "actionCreator": "servicelocator:refresh"
     }
   },
   "props": {
@@ -113,40 +95,6 @@
           "sortOn": "label"
         }
       }
-    },
-	"servicelocator": {
-      "didMountActionCreator": "servicelocator:fetchAll",
-      "sidepanel": { "_ref": "SidePanel#default" },
-      "list": {
-        "collectionId": "servicelocators",
-        "list": {
-          "columns": [
-            { "key": "id", "label": "ID" },
-            { "key": "status", "label": "Status" },
-            { "key": "uptime", "label":"Uptime"},
-            { "key": "endpoint",  "label": "Service Endpoint" },
-            { "key": "namespace", "label": "Namespace" }
-          ]
-        },
-        "toolbar": {
-          "filter": {
-            "placeholder": "Find a servicelocator"
-          },
-          "sort": {
-            "options": [
-              { "id": "label", "name": "Name" },
-              { "id": "status", "name": "Status" }
-            ]
-          },
-          "pagination":{}
-        },
-        "actions": {
-          "left": ["servicelocator:refresh"]
-        },
-        "initialState": {
-          "sortOn": "status"
-        }
-      }
     }
   },
   "routes": {
@@ -166,17 +114,12 @@
         "path": "datastores",
         "component": "HomeListView",
         "view": "datastores"
-      },
-	  {
-        "path": "servicelocator",
-        "component": "HomeListView",
-        "view": "servicelocator"
       }
     ]
   },
   "ref": {
     "SidePanel#default" : {
-      "actionIds": ["menu:datastores", "menu:datasets","menu:servicelocator"]
+      "actionIds": ["menu:datastores", "menu:datasets"]
     }
   }
 }

@@ -23,7 +23,7 @@ index 0000000..bc7a2b2
 +import {actions} from '@talend/react-cmf';
 +import {GETTING_SERVICELOCATORS, ERROR_GETTING_SERVICELOCATORS} from '../constants/servicelocators';
 +
-+export function fetchSevivelocators(){
++export function fetchServicelocators(){
 +	return actions.http.get('/servicelocators.json', {
 +		// action type to dispatch before fetch
 +		onSend: GETTING_SERVICELOCATORS,
@@ -44,7 +44,7 @@ index 733f32a..2d32c37 100644
  import redirect from './actions/redirect';
  import { fetchDataSets } from './actions/dataset';
  import { fetchDataStores } from './actions/datastore';
-+import { fetchSevivelocators } from './actions/servicelocator';
++import { fetchServicelocators } from './actions/servicelocator';
  
  import App from './components/App';
  
@@ -53,7 +53,7 @@ index 733f32a..2d32c37 100644
  		registerActionCreator('dataset:fetchAll', fetchDataSets);
  		registerActionCreator('datastore:fetchAll', fetchDataStores);
 -		registerActionCreator('servicelocator:fetchAll', fetchDataSets);
-+		registerActionCreator('servicelocator:fetchAll', fetchSevivelocators);
++		registerActionCreator('servicelocator:fetchAll', fetchServicelocators);
  		registerActionCreator('redirect', redirect);
  	},
  };
