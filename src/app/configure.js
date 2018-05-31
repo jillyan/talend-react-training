@@ -3,7 +3,7 @@ import { registerAllContainers } from '@talend/react-containers/lib/register';
 import redirect from './actions/redirect';
 import { fetchDataSets } from './actions/dataset';
 import { fetchDataStores } from './actions/datastore';
-import { fetchServicelocators } from './actions/servicelocator';
+import { fetchServicelocators, refreshServicelocators } from './actions/servicelocator';
 
 import App from './components/App';
 
@@ -24,6 +24,7 @@ export default {
 		registerActionCreator('dataset:fetchAll', fetchDataSets);
 		registerActionCreator('datastore:fetchAll', fetchDataStores);
 		registerActionCreator('servicelocator:fetchAll', fetchServicelocators);
+		registerActionCreator('servicelocator:refresh', refreshServicelocators);
 		registerActionCreator('redirect', redirect);
 	},
 };

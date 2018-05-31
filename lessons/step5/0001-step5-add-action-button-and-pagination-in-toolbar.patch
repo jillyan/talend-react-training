@@ -1,0 +1,366 @@
+From c956304b4379e203584fd81ce927e49a092fb476 Mon Sep 17 00:00:00 2001
+From: Jill Yan <zyan@talend.com>
+Date: Thu, 31 May 2018 18:15:45 +0800
+Subject: [PATCH] step5: add action button and pagination in toolbar
+
+---
+ src/app/actions/servicelocator.js    |  45 +++++++----
+ src/app/configure.js                 |   3 +-
+ src/app/constants/servicelocators.js |   2 +
+ src/assets/servicelocators.json      |  28 +++++++
+ src/assets/settings.json             | 141 ++++++++++++++++++++++++++++-------
+ 5 files changed, 176 insertions(+), 43 deletions(-)
+
+diff --git a/src/app/actions/servicelocator.js b/src/app/actions/servicelocator.js
+index bdd57d6..e171ee3 100644
+--- a/src/app/actions/servicelocator.js
++++ b/src/app/actions/servicelocator.js
+@@ -1,16 +1,35 @@
+ import {actions} from '@talend/react-cmf';
+-import {GETTING_SERVICELOCATORS, ERROR_GETTING_SERVICELOCATORS} from '../constants/servicelocators';
++import {
++    GETTING_SERVICELOCATORS,
++    ERROR_GETTING_SERVICELOCATORS,
++    REFRSHING_SERVICELOCATORS,
++    ERROR_REFRSHING_SERVICELOCATORS
++} from '../constants/servicelocators';
+ 
+-export function fetchServicelocators(){
+-	return actions.http.get('/servicelocators.json', {
+-		// action type to dispatch before fetch
+-		onSend: GETTING_SERVICELOCATORS,
+-		// action type to dispatch on fetch error
+-		onError: ERROR_GETTING_SERVICELOCATORS,
+-		// CMF action config
+-		// collectionId is the key where the result will be stored in app state
+-		cmf: {
+-			collectionId: 'servicelocators',
+-		},
+-	});
++export function fetchServicelocators() {
++    return actions.http.get('/servicelocators.json', {
++        // action type to dispatch before fetch
++        onSend: GETTING_SERVICELOCATORS,
++        // action type to dispatch on fetch error
++        onError: ERROR_GETTING_SERVICELOCATORS,
++        // CMF action config
++        // collectionId is the key where the result will be stored in app state
++        cmf: {
++            collectionId: 'servicelocators'
++        },
++    });
++}
++
++export function refreshServicelocators() {
++    return actions.http.get('/servicelocators.json', {
++        // action type to dispatch before fetch
++        onSend: REFRSHING_SERVICELOCATORS,
++        // action type to dispatch on fetch error
++        onError: ERROR_REFRSHING_SERVICELOCATORS,
++        // CMF action config
++        // collectionId is the key where the result will be stored in app state
++        cmf: {
++            collectionId: 'servicelocators'
++        },
++    });
+ }
+diff --git a/src/app/configure.js b/src/app/configure.js
+index 48e2152..f211711 100644
+--- a/src/app/configure.js
++++ b/src/app/configure.js
+@@ -3,7 +3,7 @@ import { registerAllContainers } from '@talend/react-containers/lib/register';
+ import redirect from './actions/redirect';
+ import { fetchDataSets } from './actions/dataset';
+ import { fetchDataStores } from './actions/datastore';
+-import { fetchServicelocators } from './actions/servicelocator';
++import { fetchServicelocators, refreshServicelocators } from './actions/servicelocator';
+ 
+ import App from './components/App';
+ 
+@@ -24,6 +24,7 @@ export default {
+ 		registerActionCreator('dataset:fetchAll', fetchDataSets);
+ 		registerActionCreator('datastore:fetchAll', fetchDataStores);
+ 		registerActionCreator('servicelocator:fetchAll', fetchServicelocators);
++		registerActionCreator('servicelocator:refresh', refreshServicelocators);
+ 		registerActionCreator('redirect', redirect);
+ 	},
+ };
+diff --git a/src/app/constants/servicelocators.js b/src/app/constants/servicelocators.js
+index 7aa9fda..8395b4c 100644
+--- a/src/app/constants/servicelocators.js
++++ b/src/app/constants/servicelocators.js
+@@ -1,2 +1,4 @@
+ export const GETTING_SERVICELOCATORS = 'GETTING_SERVICELOCATORS';
+ export const ERROR_GETTING_SERVICELOCATORS = 'ERROR_GETTING_SERVICELOCATORS';
++export const REFRSHING_SERVICELOCATORS = 'REFRSHING_SERVICELOCATORS';
++export const ERROR_REFRSHING_SERVICELOCATORS = 'ERROR_REFRSHING_SERVICELOCATORS';
+diff --git a/src/assets/servicelocators.json b/src/assets/servicelocators.json
+index f6b4809..e10186e 100644
+--- a/src/assets/servicelocators.json
++++ b/src/assets/servicelocators.json
+@@ -12,5 +12,33 @@
+     "endpoint": "http://localhost:8040/services/creator",
+     "uptime":"just now",
+     "namespace":"http://www.talend.org/rest/"
++  },
++  {
++    "id": 2,
++    "status": "available",
++    "endpoint": "http://localhost:8040/services/customers",
++    "uptime": "less than 1 min",
++    "namespace": "http://www.talend.org/rest/"
++  },
++  {
++    "id": 3,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime": "just now",
++    "namespace": "http://www.talend.org/rest/"
++  },
++  {
++    "id": 4,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime": "just now",
++    "namespace": "http://www.talend.org/rest/"
++  },
++  {
++    "id": 5,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime": "just now",
++    "namespace": "http://www.talend.org/rest/"
+   }
+ ]
+diff --git a/src/assets/settings.json b/src/assets/settings.json
+index 40566d3..bb07979 100644
+--- a/src/assets/settings.json
++++ b/src/assets/settings.json
+@@ -23,7 +23,7 @@
+         }
+       }
+     },
+-	 "menu:servicelocator": {
++    "menu:servicelocator": {
+       "id": "menu:servicelocator",
+       "label": "Service Locator",
+       "icon": "talend-folder",
+@@ -33,6 +33,13 @@
+           "routerReplace": "/servicelocator"
+         }
+       }
++    },
++    "servicelocator:refresh": {
++      "id": "servicelocator:refresh",
++      "label": "Refresh",
++      "bsStyle": "primary",
++      "icon": "talend-refresh",
++      "actionCreator": "servicelocator:refresh"
+     }
+   },
+   "props": {
+@@ -50,15 +57,29 @@
+     },
+     "datasets": {
+       "didMountActionCreator": "dataset:fetchAll",
+-      "sidepanel": { "_ref": "SidePanel#default" },
++      "sidepanel": {
++        "_ref": "SidePanel#default"
++      },
+       "list": {
+         "collectionId": "datasets",
+         "list": {
+           "columns": [
+-            { "key": "id", "label": "ID" },
+-            { "key": "label", "label": "Name" },
+-            { "key": "created",  "label": "Created" },
+-            { "key": "tags", "label": "Tags" }
++            {
++              "key": "id",
++              "label": "ID"
++            },
++            {
++              "key": "label",
++              "label": "Name"
++            },
++            {
++              "key": "created",
++              "label": "Created"
++            },
++            {
++              "key": "tags",
++              "label": "Tags"
++            }
+           ]
+         },
+         "toolbar": {
+@@ -67,8 +88,14 @@
+           },
+           "sort": {
+             "options": [
+-              { "id": "label", "name": "Name" },
+-              { "id": "created", "name": "Created" }
++              {
++                "id": "label",
++                "name": "Name"
++              },
++              {
++                "id": "created",
++                "name": "Created"
++              }
+             ]
+           }
+         },
+@@ -79,15 +106,29 @@
+     },
+     "datastores": {
+       "didMountActionCreator": "datastore:fetchAll",
+-      "sidepanel": { "_ref": "SidePanel#default" },
++      "sidepanel": {
++        "_ref": "SidePanel#default"
++      },
+       "list": {
+         "collectionId": "datastores",
+         "list": {
+           "columns": [
+-            { "key": "id", "label": "ID" },
+-            { "key": "label", "label": "Name" },
+-            { "key": "type",  "label": "Type" },
+-            { "key": "datasets", "label": "Number of datasets" }
++            {
++              "key": "id",
++              "label": "ID"
++            },
++            {
++              "key": "label",
++              "label": "Name"
++            },
++            {
++              "key": "type",
++              "label": "Type"
++            },
++            {
++              "key": "datasets",
++              "label": "Number of datasets"
++            }
+           ]
+         },
+         "toolbar": {
+@@ -96,9 +137,18 @@
+           },
+           "sort": {
+             "options": [
+-              { "id": "label", "name": "Name" },
+-              { "id": "type", "name": "Type" },
+-              { "id": "datasets", "name": "Number of datasets" }
++              {
++                "id": "label",
++                "name": "Name"
++              },
++              {
++                "id": "type",
++                "name": "Type"
++              },
++              {
++                "id": "datasets",
++                "name": "Number of datasets"
++              }
+             ]
+           }
+         },
+@@ -107,18 +157,35 @@
+         }
+       }
+     },
+-	"servicelocator": {
++    "servicelocator": {
+       "didMountActionCreator": "servicelocator:fetchAll",
+-      "sidepanel": { "_ref": "SidePanel#default" },
++      "sidepanel": {
++        "_ref": "SidePanel#default"
++      },
+       "list": {
+         "collectionId": "servicelocators",
+         "list": {
+           "columns": [
+-            { "key": "id", "label": "ID" },
+-            { "key": "status", "label": "Status" },
+-            { "key": "uptime", "label":"Uptime"},
+-            { "key": "endpoint",  "label": "Service Endpoint" },
+-            { "key": "namespace", "label": "Namespace" }
++            {
++              "key": "id",
++              "label": "ID"
++            },
++            {
++              "key": "status",
++              "label": "Status"
++            },
++            {
++              "key": "uptime",
++              "label": "Uptime"
++            },
++            {
++              "key": "endpoint",
++              "label": "Service Endpoint"
++            },
++            {
++              "key": "namespace",
++              "label": "Namespace"
++            }
+           ]
+         },
+         "toolbar": {
+@@ -127,10 +194,22 @@
+           },
+           "sort": {
+             "options": [
+-              { "id": "label", "name": "Name" },
+-              { "id": "status", "name": "Status" }
++              {
++                "id": "label",
++                "name": "Name"
++              },
++              {
++                "id": "status",
++                "name": "Status"
++              }
+             ]
+-          }
++          },
++          "pagination": {}
++        },
++        "actions": {
++          "left": [
++            "servicelocator:refresh"
++          ]
+         },
+         "initialState": {
+           "sortOn": "status"
+@@ -156,7 +235,7 @@
+         "component": "HomeListView",
+         "view": "datastores"
+       },
+-	  {
++      {
+         "path": "servicelocator",
+         "component": "HomeListView",
+         "view": "servicelocator"
+@@ -164,8 +243,12 @@
+     ]
+   },
+   "ref": {
+-    "SidePanel#default" : {
+-      "actionIds": ["menu:datastores", "menu:datasets","menu:servicelocator"]
++    "SidePanel#default": {
++      "actionIds": [
++        "menu:datastores",
++        "menu:datasets",
++        "menu:servicelocator"
++      ]
+     }
+   }
+ }
+-- 
+2.7.2.windows.1
+

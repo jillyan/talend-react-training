@@ -12,5 +12,33 @@
     "endpoint": "http://localhost:8040/services/creator",
     "uptime":"just now",
     "namespace":"http://www.talend.org/rest/"
+  },
+  {
+    "id": 2,
+    "status": "available",
+    "endpoint": "http://localhost:8040/services/customers",
+    "uptime": "less than 1 min",
+    "namespace": "http://www.talend.org/rest/"
+  },
+  {
+    "id": 3,
+    "status": "unavailable",
+    "endpoint": "http://localhost:8040/services/creator",
+    "uptime": "just now",
+    "namespace": "http://www.talend.org/rest/"
+  },
+  {
+    "id": 4,
+    "status": "unavailable",
+    "endpoint": "http://localhost:8040/services/creator",
+    "uptime": "just now",
+    "namespace": "http://www.talend.org/rest/"
+  },
+  {
+    "id": 5,
+    "status": "unavailable",
+    "endpoint": "http://localhost:8040/services/creator",
+    "uptime": "just now",
+    "namespace": "http://www.talend.org/rest/"
   }
 ]
