@@ -4,9 +4,9 @@ In the browser console, it shows the compiled js because we use webpack. we coul
 Please copy files `talend-scripts.json` and `webpack.config.dev.js` in the root folder, then launch the project again. You could find the original jsx files.
 ![original jsx](original-jsx.png)
 
-We launch this project by using [talend scripts](https://github.com/Talend/ui/tree/master/packages/scripts) which uses webpack. And webpack configuration `devtool:'source-map'` will show the original source. See [webpack devtool](!https://webpack.js.org/configuration/devtool/#devtool).
+We launch this project by using [talend scripts](https://github.com/Talend/ui/tree/master/packages/scripts) which uses webpack. And webpack configuration `devtool:'source-map'` will show the original source. See [webpack devtool](https://webpack.js.org/configuration/devtool/#devtool).
 
-Note: Here we use a workaround in talend scripts to get the original source. And in higher version(begin from 0.3.0), `devtool:'source-map'` will be default configuration for dev mode. see pr [#1362](!https://github.com/Talend/ui/pull/1362).
+Note: Here we use a workaround in talend scripts to get the original source. And in higher version(begin from 0.3.0), `devtool:'source-map'` will be default configuration for dev mode. see pr [#1362](https://github.com/Talend/ui/pull/1362).
 
 # React Dev Tool
 React Developer Tools lets you inspect the React component hierarchy, including component props and state.
