@@ -2,10 +2,9 @@ This step we will add redux-logger for action trace. With this middleware, we ca
 
 ![avatar](step4.png)
 
-please see https://www.npmjs.com/package/redux-logger for the basic introduction.
+please see [redux middlewares acknowledge](https://redux.js.org/advanced/middleware) and [basic introduction for redux-logger](https://www.npmjs.com/package/redux-logger).
 
-Know redux middlewares, see https://redux.js.org/advanced/middleware.
-redux middlewares will change process from action -> reducer to be action -> middlewares -> reducer.
+Redux middlewares will change process from action -> reducer to be action -> middlewares -> reducer.
 
 ```
 import { createStore, applyMiddleware } from 'redux';

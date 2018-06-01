@@ -39,7 +39,7 @@ add action in service locator list container in settings.json
 ```
 
 ## Add pagination in toolbar
-`"pagination":{}` will use default configuations in [Pagination component](https://github.com/Talend/ui/blob/master/packages/components/src/List/Toolbar/Pagination/Pagination.component.js).
+`"pagination":{}` will use default configurations in [Pagination component](https://github.com/Talend/ui/blob/master/packages/components/src/List/Toolbar/Pagination/Pagination.component.js).
 
 ```
 Pagination.defaultProps = {
@@ -51,4 +51,4 @@ Pagination.defaultProps = {
 So we added another 4 items in assets/servicelocator.json, so we have 6 items.
 
 - We can access [talend common components online samples](http://talend.surge.sh/components), and also [talend form online sample](http://talend.surge.sh/forms).
-- [Talend ui repository](https://github.com/Talend/ui) contains common comopnents, cmf, form and so on.
+- [Talend ui repository](https://github.com/Talend/ui) contains common components, cmf, form and so on.
