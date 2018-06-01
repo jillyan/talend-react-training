@@ -9,7 +9,7 @@ In next step, we will show the action trace by adding middleware redux-logger.
 Please see https://www.npmjs.com/package/redux-logger for the basic introduction.
 
 
-Please see latest guid by the following links.
+Please see latest guide by the following links.
 
 [App](https://github.com/Talend/ui/blob/master/packages/cmf/src/App.md)
 [Dispatcher](https://github.com/Talend/ui/blob/master/packages/cmf/src/Dispatcher.md)
