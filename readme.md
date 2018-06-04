@@ -24,3 +24,5 @@ yo talend:react-cmf
 `npm install -g yo` is to install yeoman.
 `npm install -g generator-talend` is to install talend generator.
 `yo talend:react-cmf` is to generate your own react-cmf project.
+
+Note. You could copy folders in lessons/original-src and paste them into src no matter when you want to try from the first step.
