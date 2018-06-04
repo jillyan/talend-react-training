@@ -2,7 +2,7 @@ In this steps, we transfer servicelocator data collections and show it in servic
 
 # Transfer data to list.
 
-You could use git command by `apply 0001-step1-add-a-module.patch` to see the result. See step2.png.
+You could use git command by `apply 0001-lesson2-show-servicelocator-collection.patch` to see the result. See step2.png.
 ![step2.png](step2.png)
 
 I have creatd a assets/servicelocators.json which are fake data.
