@@ -1,7 +1,7 @@
 This step we will learn the basically important concept and component in cmf.
 
 Please see [api](api.md), [App](App.md), [cmfConnect](cmfConnect.md), [Dispatcher](Dispatcher.md), [expressioin](expression.md), [onEvent](onEvent.md), [registry](registry.md), [settings](settings.md), [store](store.md).
-And for the whole shema, see schema.png.
+And for the whole schema, see schema.png.
 
 ![shema](schema.png)
 
