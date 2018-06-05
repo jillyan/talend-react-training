@@ -6,6 +6,8 @@ import { fetchDataStores } from './actions/datastore';
 import { fetchServicelocators, refreshServicelocators } from './actions/servicelocator';
 
 import App from './components/App';
+import CHomeListView from './components/CHomeListView';
+import ServiceLocator from './components/ServiceLocator';
 
 const registerComponent = api.component.register;
 const registerActionCreator = api.actionCreator.register;
@@ -17,6 +19,8 @@ export default {
 		 */
 		registerAllContainers();
 		registerComponent('App', App);
+		registerComponent('CHomeListView', CHomeListView);
+		registerComponent('ServiceLocatorComponent', ServiceLocator);
 
 		/**
 		 * Register action creators in CMF Actions dictionary
