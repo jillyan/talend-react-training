@@ -1,0 +1,181 @@
+From 197042213c70e6745435e6abb0507302142bf5a8 Mon Sep 17 00:00:00 2001
+From: Jill Yan <yan95599@gmail.com>
+Date: Tue, 5 Jun 2018 17:55:57 +0800
+Subject: [PATCH] customized module
+
+---
+ .../CHomeListView/CHomeListView.component.js       | 24 ++++++++++
+ src/app/components/CHomeListView/index.js          |  3 ++
+ .../ServiceLocator/ServiceLocator.component.js     | 10 ++++
+ src/app/components/ServiceLocator/index.js         |  3 ++
+ src/app/configure.js                               |  4 ++
+ src/assets/settings.json                           | 56 +---------------------
+ 6 files changed, 46 insertions(+), 54 deletions(-)
+ create mode 100644 src/app/components/CHomeListView/CHomeListView.component.js
+ create mode 100644 src/app/components/CHomeListView/index.js
+ create mode 100644 src/app/components/ServiceLocator/ServiceLocator.component.js
+ create mode 100644 src/app/components/ServiceLocator/index.js
+
+diff --git a/src/app/components/CHomeListView/CHomeListView.component.js b/src/app/components/CHomeListView/CHomeListView.component.js
+new file mode 100644
+index 0000000..bfed45f
+--- /dev/null
++++ b/src/app/components/CHomeListView/CHomeListView.component.js
+@@ -0,0 +1,24 @@
++import React from 'react';
++import PropTypes from 'prop-types';
++import { HomeListView as BareHomeListView } from '@talend/react-containers';
++import { Inject } from '@talend/react-cmf';
++import omit from 'lodash/omit';
++
++function CHomeListView(props) {
++    const listComponent = <Inject component={props.list.component}/>;
++    return (
++        <BareHomeListView
++            {...omit(props, ['list'])}
++            list={listComponent}
++            hasTheme
++        >
++            {props.children}
++        </BareHomeListView>
++    );
++}
++CHomeListView.propTypes = {
++    children: PropTypes.element,
++    list: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired
++};
++
++export default CHomeListView;
+diff --git a/src/app/components/CHomeListView/index.js b/src/app/components/CHomeListView/index.js
+new file mode 100644
+index 0000000..8bd3f8f
+--- /dev/null
++++ b/src/app/components/CHomeListView/index.js
+@@ -0,0 +1,3 @@
++import CHomeListView from './CHomeListView.component';
++
++export default CHomeListView;
+diff --git a/src/app/components/ServiceLocator/ServiceLocator.component.js b/src/app/components/ServiceLocator/ServiceLocator.component.js
+new file mode 100644
+index 0000000..0c6a8ec
+--- /dev/null
++++ b/src/app/components/ServiceLocator/ServiceLocator.component.js
+@@ -0,0 +1,10 @@
++import React from 'react';
++
++function ServiceLocator(props) {
++
++    return (<div>This is a customized Service Locator module.</div>);
++}
++
++ServiceLocator.displayName="ServiceLocator";
++
++export default ServiceLocator;
+diff --git a/src/app/components/ServiceLocator/index.js b/src/app/components/ServiceLocator/index.js
+new file mode 100644
+index 0000000..56e539c
+--- /dev/null
++++ b/src/app/components/ServiceLocator/index.js
+@@ -0,0 +1,3 @@
++import ServiceLocator from './ServiceLocator.component';
++
++export default ServiceLocator;
+diff --git a/src/app/configure.js b/src/app/configure.js
+index f211711..898cc0a 100644
+--- a/src/app/configure.js
++++ b/src/app/configure.js
+@@ -6,6 +6,8 @@ import { fetchDataStores } from './actions/datastore';
+ import { fetchServicelocators, refreshServicelocators } from './actions/servicelocator';
+ 
+ import App from './components/App';
++import CHomeListView from './components/CHomeListView';
++import ServiceLocator from './components/ServiceLocator';
+ 
+ const registerComponent = api.component.register;
+ const registerActionCreator = api.actionCreator.register;
+@@ -17,6 +19,8 @@ export default {
+ 		 */
+ 		registerAllContainers();
+ 		registerComponent('App', App);
++		registerComponent('CHomeListView', CHomeListView);
++		registerComponent('ServiceLocatorComponent', ServiceLocator);
+ 
+ 		/**
+ 		 * Register action creators in CMF Actions dictionary
+diff --git a/src/assets/settings.json b/src/assets/settings.json
+index bb07979..1246f20 100644
+--- a/src/assets/settings.json
++++ b/src/assets/settings.json
+@@ -162,59 +162,7 @@
+       "sidepanel": {
+         "_ref": "SidePanel#default"
+       },
+-      "list": {
+-        "collectionId": "servicelocators",
+-        "list": {
+-          "columns": [
+-            {
+-              "key": "id",
+-              "label": "ID"
+-            },
+-            {
+-              "key": "status",
+-              "label": "Status"
+-            },
+-            {
+-              "key": "uptime",
+-              "label": "Uptime"
+-            },
+-            {
+-              "key": "endpoint",
+-              "label": "Service Endpoint"
+-            },
+-            {
+-              "key": "namespace",
+-              "label": "Namespace"
+-            }
+-          ]
+-        },
+-        "toolbar": {
+-          "filter": {
+-            "placeholder": "Find a servicelocator"
+-          },
+-          "sort": {
+-            "options": [
+-              {
+-                "id": "label",
+-                "name": "Name"
+-              },
+-              {
+-                "id": "status",
+-                "name": "Status"
+-              }
+-            ]
+-          },
+-          "pagination": {}
+-        },
+-        "actions": {
+-          "left": [
+-            "servicelocator:refresh"
+-          ]
+-        },
+-        "initialState": {
+-          "sortOn": "status"
+-        }
+-      }
++      "list": { "component": "ServiceLocatorComponent"}
+     }
+   },
+   "routes": {
+@@ -237,7 +185,7 @@
+       },
+       {
+         "path": "servicelocator",
+-        "component": "HomeListView",
++        "component": "CHomeListView",
+         "view": "servicelocator"
+       }
+     ]
+-- 
+2.8.2.windows.1
+
