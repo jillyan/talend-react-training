@@ -1,4 +1,4 @@
-import { api } from '@talend/react-cmf';
+import cmf from '@talend/react-cmf';
 import { registerAllContainers } from '@talend/react-containers/lib/register';
 import redirect from './actions/redirect';
 import { fetchDataSets } from './actions/dataset';
@@ -6,11 +6,11 @@ import { fetchDataStores } from './actions/datastore';
 import { fetchServicelocators, refreshServicelocators } from './actions/servicelocator';
 
 import App from './components/App';
-import CHomeListView from './components/CHomeListView';
+import SLHomeView from './components/SLHomeView';
 import ServiceLocator from './components/ServiceLocator';
 
-const registerComponent = api.component.register;
-const registerActionCreator = api.actionCreator.register;
+const registerComponent = cmf.component.register;
+const registerActionCreator = cmf.actionCreator.register;
 
 export default {
 	initialize() {
@@ -19,7 +19,7 @@ export default {
 		 */
 		registerAllContainers();
 		registerComponent('App', App);
-		registerComponent('CHomeListView', CHomeListView);
+		registerComponent('SLHomeView', SLHomeView);
 		registerComponent('ServiceLocatorComponent', ServiceLocator);
 
 		/**

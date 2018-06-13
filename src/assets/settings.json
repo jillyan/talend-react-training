@@ -185,7 +185,7 @@
       },
       {
         "path": "servicelocator",
-        "component": "CHomeListView",
+        "component": "SLHomeView",
         "view": "servicelocator"
       }
     ]
