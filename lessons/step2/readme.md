@@ -1,14 +1,14 @@
-In this steps, we transfer servicelocator data collections and show it in servicelocator module as a list. 
+In this steps, we transfer servicelocator data collections and show it in servicelocator module as a list.
 
 # Transfer data to list.
 
-You could use git command by `apply 0001-lesson2-show-servicelocator-collection.patch` to see the result. See step2.png.
+You could use git command by `apply --whitespace=fix 0001-how-to-set-collection-data` to see the result. See step2.png.
 ![step2.png](step2.png)
 
 I have creatd a assets/servicelocators.json which are fake data.
 
 ## 1. set servicelocator list view configuration.
-Firstly, we check the servicelocator view configuration in settings.json. It defines list and toolbar view. In the list, there are columns definitions. 
+Firstly, we check the servicelocator view configuration in settings.json. It defines list and toolbar view. In the list, there are columns definitions.
 
 modify its columns to be:
 ```
@@ -66,7 +66,7 @@ Then we modify the collection id in servicelocator view configuration in setting
 
 ## 3. register fetchSevivelocators in cmf actions. See modifications in configure.js.
 ```
-registerActionCreator('servicelocator:fetchAll', fetchSevivelocators); 
+registerActionCreator('servicelocator:fetchAll', fetchSevivelocators);
 ```
 
 please see original guid in node_modules/@talend/react-cmf/howto/how-to-manage-collections.md
