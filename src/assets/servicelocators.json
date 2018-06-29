@@ -1,0 +1,16 @@
+[
+  {
+    "id": 0,
+    "status": "available",
+    "endpoint": "http://localhost:8040/services/customers",
+    "uptime": "less than 1 min",
+    "namespace": "http://www.talend.org/rest/"
+  },
+  {
+    "id": 1,
+    "status": "unavailable",
+    "endpoint": "http://localhost:8040/services/creator",
+    "uptime": "just now",
+    "namespace": "http://www.talend.org/rest/"
+  }
+]
