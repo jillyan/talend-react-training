@@ -1,16 +1,16 @@
-From 197042213c70e6745435e6abb0507302142bf5a8 Mon Sep 17 00:00:00 2001
-From: Jill Yan <yan95599@gmail.com>
-Date: Tue, 5 Jun 2018 17:55:57 +0800
+From 434be90c6b06643e32ea6827320053749572b4c5 Mon Sep 17 00:00:00 2001
+From: Jill Yan <zyan@talend.com>
+Date: Fri, 29 Jun 2018 14:17:07 +0800
 Subject: [PATCH] customized module
 
 ---
- .../CHomeListView/CHomeListView.component.js       | 24 ++++++++++
+ .../CHomeListView/CHomeListView.component.js       | 25 +++++++++++
  src/app/components/CHomeListView/index.js          |  3 ++
- .../ServiceLocator/ServiceLocator.component.js     | 10 ++++
+ .../ServiceLocator/ServiceLocator.component.js     | 10 +++++
  src/app/components/ServiceLocator/index.js         |  3 ++
  src/app/configure.js                               |  4 ++
- src/assets/settings.json                           | 56 +---------------------
- 6 files changed, 46 insertions(+), 54 deletions(-)
+ src/assets/settings.json                           | 50 +---------------------
+ 6 files changed, 47 insertions(+), 48 deletions(-)
  create mode 100644 src/app/components/CHomeListView/CHomeListView.component.js
  create mode 100644 src/app/components/CHomeListView/index.js
  create mode 100644 src/app/components/ServiceLocator/ServiceLocator.component.js
@@ -18,14 +18,14 @@ Subject: [PATCH] customized module
 
 diff --git a/src/app/components/CHomeListView/CHomeListView.component.js b/src/app/components/CHomeListView/CHomeListView.component.js
 new file mode 100644
-index 0000000..bfed45f
+index 0000000..32834cb
 --- /dev/null
 +++ b/src/app/components/CHomeListView/CHomeListView.component.js
-@@ -0,0 +1,24 @@
+@@ -0,0 +1,25 @@
 +import React from 'react';
 +import PropTypes from 'prop-types';
-+import { HomeListView as BareHomeListView } from '@talend/react-containers';
-+import { Inject } from '@talend/react-cmf';
++import {HomeListView as BareHomeListView} from '@talend/react-containers';
++import {Inject} from '@talend/react-cmf';
 +import omit from 'lodash/omit';
 +
 +function CHomeListView(props) {
@@ -40,6 +40,7 @@ index 0000000..bfed45f
 +        </BareHomeListView>
 +    );
 +}
++
 +CHomeListView.propTypes = {
 +    children: PropTypes.element,
 +    list: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired
@@ -57,7 +58,7 @@ index 0000000..8bd3f8f
 +export default CHomeListView;
 diff --git a/src/app/components/ServiceLocator/ServiceLocator.component.js b/src/app/components/ServiceLocator/ServiceLocator.component.js
 new file mode 100644
-index 0000000..0c6a8ec
+index 0000000..4df5794
 --- /dev/null
 +++ b/src/app/components/ServiceLocator/ServiceLocator.component.js
 @@ -0,0 +1,10 @@
@@ -65,59 +66,54 @@ index 0000000..0c6a8ec
 +
 +function ServiceLocator(props) {
 +
-+    return (<div>This is a customized Service Locator module.</div>);
++    return (<div>This is a customized service locator module!</div>);
 +}
 +
-+ServiceLocator.displayName="ServiceLocator";
++ServiceLocator.displayName = "ServiceLocator";
 +
 +export default ServiceLocator;
 diff --git a/src/app/components/ServiceLocator/index.js b/src/app/components/ServiceLocator/index.js
 new file mode 100644
-index 0000000..56e539c
+index 0000000..b4cfaee
 --- /dev/null
 +++ b/src/app/components/ServiceLocator/index.js
 @@ -0,0 +1,3 @@
-+import ServiceLocator from './ServiceLocator.component';
++import ServiceLocatorComponent from "./ServiceLocator.component";
 +
-+export default ServiceLocator;
++export default  ServiceLocatorComponent;
 diff --git a/src/app/configure.js b/src/app/configure.js
-index f211711..898cc0a 100644
+index 808e6a6..b492498 100644
 --- a/src/app/configure.js
 +++ b/src/app/configure.js
-@@ -6,6 +6,8 @@ import { fetchDataStores } from './actions/datastore';
- import { fetchServicelocators, refreshServicelocators } from './actions/servicelocator';
- 
+@@ -5,6 +5,8 @@ import {fetchDataSets} from './actions/dataset';
+ import {fetchDataStores} from './actions/datastore';
+ import {fetchServicelocators, refreshServicelocators} from './actions/servicelocator';
  import App from './components/App';
 +import CHomeListView from './components/CHomeListView';
-+import ServiceLocator from './components/ServiceLocator';
++import ServiceLocatorComponent from './components/ServiceLocator';
  
- const registerComponent = api.component.register;
- const registerActionCreator = api.actionCreator.register;
-@@ -17,6 +19,8 @@ export default {
- 		 */
- 		registerAllContainers();
- 		registerComponent('App', App);
-+		registerComponent('CHomeListView', CHomeListView);
-+		registerComponent('ServiceLocatorComponent', ServiceLocator);
+ const registerComponent = cmf.component.register;
+ const registerActionCreator = cmf.actionCreator.register;
+@@ -16,6 +18,8 @@ export default {
+          */
+         registerAllContainers();
+         registerComponent('App', App);
++        registerComponent('CHomeListView', CHomeListView);
++        registerComponent('ServiceLocatorComponent', ServiceLocatorComponent);
  
- 		/**
- 		 * Register action creators in CMF Actions dictionary
+         /**
+          * Register action creators in CMF Actions dictionary
 diff --git a/src/assets/settings.json b/src/assets/settings.json
-index bb07979..1246f20 100644
+index 2541cf9..a4f2caa 100644
 --- a/src/assets/settings.json
 +++ b/src/assets/settings.json
-@@ -162,59 +162,7 @@
-       "sidepanel": {
+@@ -163,53 +163,7 @@
          "_ref": "SidePanel#default"
        },
--      "list": {
+       "list": {
 -        "collectionId": "servicelocators",
 -        "list": {
 -          "columns": [
--            {
--              "key": "id",
--              "label": "ID"
--            },
 -            {
 -              "key": "status",
 -              "label": "Status"
@@ -162,12 +158,11 @@ index bb07979..1246f20 100644
 -        "initialState": {
 -          "sortOn": "status"
 -        }
--      }
-+      "list": { "component": "ServiceLocatorComponent"}
++        "component": "ServiceLocatorComponent"
+       }
      }
    },
-   "routes": {
-@@ -237,7 +185,7 @@
+@@ -233,7 +187,7 @@
        },
        {
          "path": "servicelocator",
@@ -177,5 +172,5 @@ index bb07979..1246f20 100644
        }
      ]
 -- 
-2.8.2.windows.1
+2.7.2.windows.1
 
