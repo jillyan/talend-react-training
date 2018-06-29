@@ -33,6 +33,13 @@
           "routerReplace": "/servicelocator"
         }
       }
+    },
+    "servicelocator:refresh": {
+      "id": "servicelocator:refresh",
+      "label": "Refresh",
+      "bsStyle": "primary",
+      "icon": "talend-refresh",
+      "actionCreator": "servicelocator:refresh"
     }
   },
   "props": {
@@ -192,7 +199,13 @@
                 "name": "Status"
               }
             ]
-          }
+          },
+          "pagination": {}
+        },
+        "actions": {
+          "left": [
+            "servicelocator:refresh"
+          ]
         },
         "initialState": {
           "sortOn": "status"
