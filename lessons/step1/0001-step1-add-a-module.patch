@@ -1,28 +1,27 @@
-From b642a6df9ef469f46dd2325dd5a00040305d64fc Mon Sep 17 00:00:00 2001
-From: Jill Yan <zyan@talend.com>
-Date: Tue, 8 May 2018 11:18:25 +0800
-Subject: [PATCH] step1:add a module
+From 523d9e5f9ef4435041ae39463c628e7b4a4d86cb Mon Sep 17 00:00:00 2001
+From: Jill Yan <yan95599@gmail.com>
+Date: Fri, 29 Jun 2018 11:13:02 +0800
+Subject: [PATCH] add simple module
 
-Add a service locator module, but copy the view of datasets.
 ---
  src/app/configure.js     |  1 +
- src/assets/settings.json | 47 ++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 47 insertions(+), 1 deletion(-)
+ src/assets/settings.json | 68 +++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 68 insertions(+), 1 deletion(-)
 
 diff --git a/src/app/configure.js b/src/app/configure.js
-index 857dc2a..733f32a 100644
+index 8e11f81..2cc7799 100644
 --- a/src/app/configure.js
 +++ b/src/app/configure.js
 @@ -22,6 +22,7 @@ export default {
- 		 */
- 		registerActionCreator('dataset:fetchAll', fetchDataSets);
- 		registerActionCreator('datastore:fetchAll', fetchDataStores);
-+		registerActionCreator('servicelocator:fetchAll', fetchDataSets);
- 		registerActionCreator('redirect', redirect);
- 	},
+          */
+         registerActionCreator('dataset:fetchAll', fetchDataSets);
+         registerActionCreator('datastore:fetchAll', fetchDataStores);
++        registerActionCreator('servicelocator:fetchAll', fetchDataSets);
+         registerActionCreator('redirect', redirect);
+     },
  };
 diff --git a/src/assets/settings.json b/src/assets/settings.json
-index 11ebe1c..dcd943f 100644
+index 29f4125..0f79597 100644
 --- a/src/assets/settings.json
 +++ b/src/assets/settings.json
 @@ -22,6 +22,17 @@
@@ -30,7 +29,7 @@ index 11ebe1c..dcd943f 100644
          }
        }
 +    },
-+	 "menu:servicelocator": {
++    "menu:servicelocator": {
 +      "id": "menu:servicelocator",
 +      "label": "Service Locator",
 +      "icon": "talend-folder",
@@ -43,22 +42,36 @@ index 11ebe1c..dcd943f 100644
      }
    },
    "props": {
-@@ -95,6 +106,35 @@
+@@ -138,6 +149,55 @@
            "sortOn": "label"
          }
        }
 +    },
-+	"servicelocator": {
++    "servicelocator": {
 +      "didMountActionCreator": "servicelocator:fetchAll",
-+      "sidepanel": { "_ref": "SidePanel#default" },
++      "sidepanel": {
++        "_ref": "SidePanel#default"
++      },
 +      "list": {
 +        "collectionId": "datasets",
 +        "list": {
 +          "columns": [
-+            { "key": "id", "label": "ID" },
-+            { "key": "label", "label": "Name" },
-+            { "key": "created",  "label": "Created" },
-+            { "key": "tags", "label": "Tags" }
++            {
++              "key": "id",
++              "label": "ID"
++            },
++            {
++              "key": "label",
++              "label": "Name"
++            },
++            {
++              "key": "created",
++              "label": "Created"
++            },
++            {
++              "key": "tags",
++              "label": "Tags"
++            }
 +          ]
 +        },
 +        "toolbar": {
@@ -67,8 +80,14 @@ index 11ebe1c..dcd943f 100644
 +          },
 +          "sort": {
 +            "options": [
-+              { "id": "label", "name": "Name" },
-+              { "id": "created", "name": "Created" }
++              {
++                "id": "label",
++                "name": "Name"
++              },
++              {
++                "id": "created",
++                "name": "Created"
++              }
 +            ]
 +          }
 +        },
@@ -79,25 +98,28 @@ index 11ebe1c..dcd943f 100644
      }
    },
    "routes": {
-@@ -114,12 +154,17 @@
+@@ -157,6 +217,11 @@
          "path": "datastores",
          "component": "HomeListView",
          "view": "datastores"
 +      },
-+	  {
++      {
 +        "path": "servicelocator",
 +        "component": "HomeListView",
 +        "view": "servicelocator"
        }
      ]
    },
-   "ref": {
-     "SidePanel#default" : {
--      "actionIds": ["menu:datastores", "menu:datasets"]
-+      "actionIds": ["menu:datastores", "menu:datasets","menu:servicelocator"]
+@@ -164,7 +229,8 @@
+     "SidePanel#default": {
+       "actionIds": [
+         "menu:datastores",
+-        "menu:datasets"
++        "menu:datasets",
++        "menu:servicelocator"
+       ]
      }
    }
- }
 -- 
-2.7.2.windows.1
+2.8.2.windows.1
 
