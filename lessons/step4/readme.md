@@ -24,3 +24,8 @@ import logger from 'redux-logger';
 
 const store = cmfstore.initialize(appReducer, undefined, undefined, logger);
 ```
+
+Note. make sure you have add dependency in package.json.
+```
+"redux-logger": "3.0.6",
+```

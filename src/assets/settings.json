@@ -22,24 +22,6 @@
           "routerReplace": "/datastores"
         }
       }
-    },
-    "menu:servicelocator": {
-      "id": "menu:servicelocator",
-      "label": "Service Locator",
-      "icon": "talend-folder",
-      "payload": {
-        "type": "MENU_LINK",
-        "cmf": {
-          "routerReplace": "/servicelocator"
-        }
-      }
-    },
-    "servicelocator:refresh": {
-      "id": "servicelocator:refresh",
-      "label": "Refresh",
-      "bsStyle": "primary",
-      "icon": "talend-refresh",
-      "actionCreator": "servicelocator:refresh"
     }
   },
   "props": {
@@ -156,13 +138,6 @@
           "sortOn": "label"
         }
       }
-    },
-    "servicelocator": {
-      "didMountActionCreator": "servicelocator:fetchAll",
-      "sidepanel": {
-        "_ref": "SidePanel#default"
-      },
-      "list": { "component": "ServiceLocatorComponent"}
     }
   },
   "routes": {
@@ -182,11 +157,6 @@
         "path": "datastores",
         "component": "HomeListView",
         "view": "datastores"
-      },
-      {
-        "path": "servicelocator",
-        "component": "SLHomeView",
-        "view": "servicelocator"
       }
     ]
   },
@@ -194,8 +164,7 @@
     "SidePanel#default": {
       "actionIds": [
         "menu:datastores",
-        "menu:datasets",
-        "menu:servicelocator"
+        "menu:datasets"
       ]
     }
   }

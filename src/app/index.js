@@ -9,7 +9,6 @@ import { render } from 'react-dom';
 import { App, store as cmfstore, actions } from '@talend/react-cmf';
 import { browserHistory } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
-import logger from 'redux-logger';
 
 import configure from './configure';
 import appReducer from './reducers';
@@ -29,7 +28,7 @@ cmfstore.setRouterMiddleware(routerMiddleware(browserHistory));
 /**
  * Register your app reducers
  */
-const store = cmfstore.initialize(appReducer, undefined, undefined, logger);
+const store = cmfstore.initialize(appReducer);
 
 /**
  * Fetch the CMF settings and configure the CMF app
