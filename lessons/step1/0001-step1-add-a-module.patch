@@ -1,29 +1,10 @@
-From 523d9e5f9ef4435041ae39463c628e7b4a4d86cb Mon Sep 17 00:00:00 2001
-From: Jill Yan <yan95599@gmail.com>
-Date: Fri, 29 Jun 2018 11:13:02 +0800
-Subject: [PATCH] add simple module
-
----
- src/app/configure.js     |  1 +
- src/assets/settings.json | 68 +++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 68 insertions(+), 1 deletion(-)
-
-diff --git a/src/app/configure.js b/src/app/configure.js
-index 8e11f81..2cc7799 100644
---- a/src/app/configure.js
-+++ b/src/app/configure.js
-@@ -22,6 +22,7 @@ export default {
-          */
-         registerActionCreator('dataset:fetchAll', fetchDataSets);
-         registerActionCreator('datastore:fetchAll', fetchDataStores);
-+        registerActionCreator('servicelocator:fetchAll', fetchDataSets);
-         registerActionCreator('redirect', redirect);
-     },
- };
-diff --git a/src/assets/settings.json b/src/assets/settings.json
-index 29f4125..0f79597 100644
---- a/src/assets/settings.json
-+++ b/src/assets/settings.json
+Index: src/assets/settings.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/assets/settings.json	(revision 30ff7b07231131e6d7d8174ff807dde17b7efffe)
++++ src/assets/settings.json	(date 1530276390501)
 @@ -22,6 +22,17 @@
            "routerReplace": "/datastores"
          }
@@ -42,10 +23,32 @@ index 29f4125..0f79597 100644
      }
    },
    "props": {
-@@ -138,6 +149,55 @@
-           "sortOn": "label"
-         }
-       }
+@@ -46,7 +57,7 @@
+           "columns": [
+             { "key": "id", "label": "ID" },
+             { "key": "label", "label": "Name" },
+-            { "key": "created",  "label": "Created" },
++            { "key": "created", "label": "Created" },
+             { "key": "tags", "label": "Tags" }
+           ]
+         },
+@@ -75,7 +86,7 @@
+           "columns": [
+             { "key": "id", "label": "ID" },
+             { "key": "label", "label": "Name" },
+-            { "key": "type",  "label": "Type" },
++            { "key": "type", "label": "Type" },
+             { "key": "datasets", "label": "Number of datasets" }
+           ]
+         },
+@@ -91,6 +102,37 @@
+             ]
+           }
+         },
++        "initialState": {
++          "sortOn": "label"
++        }
++      }
 +    },
 +    "servicelocator": {
 +      "didMountActionCreator": "servicelocator:fetchAll",
@@ -56,22 +59,10 @@ index 29f4125..0f79597 100644
 +        "collectionId": "datasets",
 +        "list": {
 +          "columns": [
-+            {
-+              "key": "id",
-+              "label": "ID"
-+            },
-+            {
-+              "key": "label",
-+              "label": "Name"
-+            },
-+            {
-+              "key": "created",
-+              "label": "Created"
-+            },
-+            {
-+              "key": "tags",
-+              "label": "Tags"
-+            }
++            { "key": "id", "label": "ID" },
++            { "key": "label", "label": "Name" },
++            { "key": "created", "label": "Created" },
++            { "key": "tags", "label": "Tags" }
 +          ]
 +        },
 +        "toolbar": {
@@ -80,25 +71,15 @@ index 29f4125..0f79597 100644
 +          },
 +          "sort": {
 +            "options": [
-+              {
-+                "id": "label",
-+                "name": "Name"
-+              },
-+              {
-+                "id": "created",
-+                "name": "Created"
-+              }
++              { "id": "label", "name": "Name" },
++              { "id": "created", "name": "Created" }
 +            ]
 +          }
 +        },
-+        "initialState": {
-+          "sortOn": "label"
-+        }
-+      }
-     }
-   },
-   "routes": {
-@@ -157,6 +217,11 @@
+         "initialState": {
+           "sortOn": "label"
+         }
+@@ -114,12 +156,17 @@
          "path": "datastores",
          "component": "HomeListView",
          "view": "datastores"
@@ -110,16 +91,26 @@ index 29f4125..0f79597 100644
        }
      ]
    },
-@@ -164,7 +229,8 @@
-     "SidePanel#default": {
-       "actionIds": [
-         "menu:datastores",
--        "menu:datasets"
-+        "menu:datasets",
-+        "menu:servicelocator"
-       ]
+   "ref": {
+-    "SidePanel#default" : {
+-      "actionIds": ["menu:datastores", "menu:datasets"]
++    "SidePanel#default": {
++      "actionIds": ["menu:datastores", "menu:datasets", "menu:servicelocator"]
      }
    }
--- 
-2.8.2.windows.1
-
+ }
+Index: src/app/configure.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/configure.js	(revision 30ff7b07231131e6d7d8174ff807dde17b7efffe)
++++ src/app/configure.js	(date 1530275937568)
+@@ -22,6 +22,7 @@
+          */
+         registerActionCreator('dataset:fetchAll', fetchDataSets);
+         registerActionCreator('datastore:fetchAll', fetchDataStores);
++        registerActionCreator('servicelocator:fetchAll', fetchDataSets);
+         registerActionCreator('redirect', redirect);
+     },
+ };

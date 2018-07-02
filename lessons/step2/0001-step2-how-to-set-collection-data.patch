@@ -1,0 +1,183 @@
+Index: src/app/constants/servicelocators.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/constants/servicelocators.js	(date 1530534579962)
++++ src/app/constants/servicelocators.js	(date 1530534579962)
+@@ -0,0 +1,4 @@
++export const GETTING_SERVICELOCATORS = 'GETTING_SERVICELOCATORS';
++export const ERROR_GETTING_SERVICELOCATORS = 'ERROR_GETTING_SERVICELOCATORS';
++export const REFRSHING_SERVICELOCATORS = 'REFRSHING_SERVICELOCATORS';
++export const ERROR_REFRSHING_SERVICELOCATORS = 'ERROR_REFRSHING_SERVICELOCATORS';
+Index: src/assets/servicelocators.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/assets/servicelocators.json	(date 1530534579979)
++++ src/assets/servicelocators.json	(date 1530534579979)
+@@ -0,0 +1,44 @@
++[
++  {
++    "id": 0,
++    "status": "available",
++    "endpoint": "http://localhost:8040/services/customers",
++    "uptime": "less than 1 min",
++    "namespace": "http://www.talend.org/rest/"
++  },
++  {
++    "id": 1,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime": "just now",
++    "namespace": "http://www.talend.org/rest/"
++  },
++  {
++    "id": 2,
++    "status": "available",
++    "endpoint": "http://localhost:8040/services/customers",
++    "uptime": "less than 1 min",
++    "namespace": "http://www.talend.org/rest/"
++  },
++  {
++    "id": 3,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime": "just now",
++    "namespace": "http://www.talend.org/rest/"
++  },
++  {
++    "id": 4,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime": "just now",
++    "namespace": "http://www.talend.org/rest/"
++  },
++  {
++    "id": 5,
++    "status": "unavailable",
++    "endpoint": "http://localhost:8040/services/creator",
++    "uptime": "just now",
++    "namespace": "http://www.talend.org/rest/"
++  }
++]
+Index: src/assets/settings.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/assets/settings.json	(date 1530534559000)
++++ src/assets/settings.json	(date 1530534704980)
+@@ -1,5 +1,5 @@
+ {
+-  "contentTypes": {},
++  "contentTypes": { },
+   "actions": {
+     "menu:datasets": {
+       "id": "menu:datasets",
+@@ -113,28 +113,29 @@
+         "_ref": "SidePanel#default"
+       },
+       "list": {
+-        "collectionId": "datasets",
++        "collectionId": "servicelocators",
+         "list": {
+           "columns": [
+             { "key": "id", "label": "ID" },
+-            { "key": "label", "label": "Name" },
+-            { "key": "created", "label": "Created" },
+-            { "key": "tags", "label": "Tags" }
++            { "key": "status", "label": "Status" },
++            { "key": "endpoint", "label": "Endpoint" },
++            { "key": "uptime", "label": "Uptime" },
++            { "key": "namespace", "label": "Namespace" }
+           ]
+         },
+         "toolbar": {
+           "filter": {
+-            "placeholder": "Find a dataset"
++            "placeholder": "Find a service locator"
+           },
+           "sort": {
+             "options": [
+-              { "id": "label", "name": "Name" },
+-              { "id": "created", "name": "Created" }
++              { "id": "status", "name": "Status" },
++              { "id": "Enpoint", "name": "Enpoint" }
+             ]
+           }
+         },
+         "initialState": {
+-          "sortOn": "label"
++          "sortOn": "status"
+         }
+       }
+     }
+Index: src/app/actions/servicelocator.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/actions/servicelocator.js	(date 1530534579953)
++++ src/app/actions/servicelocator.js	(date 1530534579953)
+@@ -0,0 +1,35 @@
++import {actions} from '@talend/react-cmf';
++import {
++    GETTING_SERVICELOCATORS,
++    ERROR_GETTING_SERVICELOCATORS,
++    REFRSHING_SERVICELOCATORS,
++    ERROR_REFRSHING_SERVICELOCATORS
++} from '../constants/servicelocators';
++
++export function fetchServicelocators() {
++    return actions.http.get('/servicelocators.json', {
++        // action type to dispatch before fetch
++        onSend: GETTING_SERVICELOCATORS,
++        // action type to dispatch on fetch error
++        onError: ERROR_GETTING_SERVICELOCATORS,
++        // CMF action config
++        // collectionId is the key where the result will be stored in app state
++        cmf: {
++            collectionId: 'servicelocators',
++        },
++    });
++}
++
++export function refreshServicelocators() {
++    return actions.http.get('/servicelocators.json', {
++        // action type to dispatch before fetch
++        onSend: REFRSHING_SERVICELOCATORS,
++        // action type to dispatch on fetch error
++        onError: ERROR_REFRSHING_SERVICELOCATORS,
++        // CMF action config
++        // collectionId is the key where the result will be stored in app state
++        cmf: {
++            collectionId: 'servicelocators'
++        },
++    });
++}
+Index: src/app/configure.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/configure.js	(date 1530534559000)
++++ src/app/configure.js	(date 1530534611221)
+@@ -3,6 +3,7 @@
+ import redirect from './actions/redirect';
+ import {fetchDataSets} from './actions/dataset';
+ import {fetchDataStores} from './actions/datastore';
++import {fetchServicelocators} from './actions/servicelocator';
+ 
+ import App from './components/App';
+ 
+@@ -22,7 +23,7 @@
+          */
+         registerActionCreator('dataset:fetchAll', fetchDataSets);
+         registerActionCreator('datastore:fetchAll', fetchDataStores);
+-        registerActionCreator('servicelocator:fetchAll', fetchDataSets);
++        registerActionCreator('servicelocator:fetchAll', fetchServicelocators);
+         registerActionCreator('redirect', redirect);
+     },
+ };

@@ -1,0 +1,76 @@
+Index: src/assets/settings.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/assets/settings.json	(date 1530534791000)
++++ src/assets/settings.json	(date 1530535005635)
+@@ -33,6 +33,13 @@
+           "routerReplace": "/servicelocator"
+         }
+       }
++    },
++    "servicelocator:refresh": {
++      "id": "servicelocator:refresh",
++      "label": "Refresh",
++      "bsStyle": "primary",
++      "icon": "talend-refresh",
++      "actionCreator": "servicelocator:refresh"
+     }
+   },
+   "props": {
+@@ -132,12 +139,29 @@
+               { "id": "status", "name": "Status" },
+               { "id": "Enpoint", "name": "Enpoint" }
+             ]
++          },
++          "pagination": {
++            "itemsPerPage": 5,
++            "startIndex": 1,
++            "itemsPerPageOptions": [5, 10, 20, 50]
+           }
+         },
+         "initialState": {
+           "sortOn": "status"
++        },
++        "actions": {
++          "left": [
++            "servicelocator:refresh"
++          ]
+         }
+       }
++    },
++    "servicelocator:refresh": {
++      "id": "servicelocator:refresh",
++      "label": "Refresh",
++      "bsStyle": "primary",
++      "icon": "talend-refresh",
++      "actionCreator": "servicelocator:refresh"
+     }
+   },
+   "routes": {
+Index: src/app/configure.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/configure.js	(date 1530534791000)
++++ src/app/configure.js	(date 1530534832269)
+@@ -3,8 +3,7 @@
+ import redirect from './actions/redirect';
+ import {fetchDataSets} from './actions/dataset';
+ import {fetchDataStores} from './actions/datastore';
+-import {fetchServicelocators} from './actions/servicelocator';
+-
++import {fetchServicelocators, refreshServicelocators} from './actions/servicelocator';
+ import App from './components/App';
+ 
+ const registerComponent = cmf.component.register;
+@@ -24,6 +23,7 @@
+         registerActionCreator('dataset:fetchAll', fetchDataSets);
+         registerActionCreator('datastore:fetchAll', fetchDataStores);
+         registerActionCreator('servicelocator:fetchAll', fetchServicelocators);
++        registerActionCreator('servicelocator:refresh', refreshServicelocators);
+         registerActionCreator('redirect', redirect);
+     },
+ };

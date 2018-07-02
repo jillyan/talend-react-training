@@ -1,0 +1,124 @@
+Index: src/app/components/CHomeListView/CHomeListView.component.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/CHomeListView/CHomeListView.component.js	(date 1530535060272)
++++ src/app/components/CHomeListView/CHomeListView.component.js	(date 1530535060272)
+@@ -0,0 +1,25 @@
++import React from 'react';
++import PropTypes from 'prop-types';
++import {HomeListView as BareHomeListView} from '@talend/react-containers';
++import {Inject} from '@talend/react-cmf';
++import omit from 'lodash/omit';
++
++function CHomeListView(props) {
++    const listComponent = <Inject component={props.list.component}/>;
++    return (
++        <BareHomeListView
++            {...omit(props, ['list'])}
++            list={listComponent}
++            hasTheme
++        >
++            {props.children}
++        </BareHomeListView>
++    );
++}
++
++CHomeListView.propTypes = {
++    children: PropTypes.element,
++    list: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired
++};
++
++export default CHomeListView;
+Index: src/app/components/CHomeListView/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/CHomeListView/index.js	(date 1530535060280)
++++ src/app/components/CHomeListView/index.js	(date 1530535060280)
+@@ -0,0 +1,3 @@
++import CHomeListView from './CHomeListView.component';
++
++export default CHomeListView;
+Index: src/app/components/ServiceLocator/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/ServiceLocator/index.js	(date 1530535379897)
++++ src/app/components/ServiceLocator/index.js	(date 1530535379897)
+@@ -0,0 +1,3 @@
++import ServiceLocatorComponent from './ServiceLocator.component';
++
++export default  ServiceLocatorComponent;
+Index: src/assets/settings.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/assets/settings.json	(date 1530535044000)
++++ src/assets/settings.json	(date 1530535630624)
+@@ -153,7 +153,8 @@
+           "left": [
+             "servicelocator:refresh"
+           ]
+-        }
++        },
++        "component": "ServiceLocatorComponent"
+       }
+     },
+     "servicelocator:refresh": {
+@@ -184,7 +185,7 @@
+       },
+       {
+         "path": "servicelocator",
+-        "component": "HomeListView",
++        "component": "CHomeListView",
+         "view": "servicelocator"
+       }
+     ]
+Index: src/app/configure.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/configure.js	(date 1530535044000)
++++ src/app/configure.js	(date 1530535060306)
+@@ -5,6 +5,8 @@
+ import {fetchDataStores} from './actions/datastore';
+ import {fetchServicelocators, refreshServicelocators} from './actions/servicelocator';
+ import App from './components/App';
++import CHomeListView from './components/CHomeListView';
++import ServiceLocatorComponent from './components/ServiceLocator';
+ 
+ const registerComponent = cmf.component.register;
+ const registerActionCreator = cmf.actionCreator.register;
+@@ -16,6 +18,8 @@
+          */
+         registerAllContainers();
+         registerComponent('App', App);
++        registerComponent('CHomeListView', CHomeListView);
++        registerComponent('ServiceLocatorComponent', ServiceLocatorComponent);
+ 
+         /**
+          * Register action creators in CMF Actions dictionary
+Index: src/app/components/ServiceLocator/ServiceLocator.component.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/ServiceLocator/ServiceLocator.component.js	(date 1530535060298)
++++ src/app/components/ServiceLocator/ServiceLocator.component.js	(date 1530535060298)
+@@ -0,0 +1,10 @@
++import React from 'react';
++
++function ServiceLocator(props) {
++
++    return (<div>This is a customized service locator module!</div>);
++}
++
++ServiceLocator.displayName = "ServiceLocator";
++
++export default ServiceLocator;

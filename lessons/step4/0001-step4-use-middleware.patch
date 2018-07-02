@@ -1,17 +1,11 @@
-From 8723c984e0dd9704b3a4edd89e713ff86a85f74c Mon Sep 17 00:00:00 2001
-From: Jill Yan <zyan@talend.com>
-Date: Fri, 11 May 2018 15:58:07 +0800
-Subject: [PATCH] step4 use middleware
-
----
- src/app/index.js        |   3 ++-
- 1 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/src/app/index.js b/src/app/index.js
-index 904335e..3ce4652 100644
---- a/src/app/index.js
-+++ b/src/app/index.js
-@@ -9,6 +9,7 @@ import { render } from 'react-dom';
+Index: src/app/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/index.js	(revision 30ff7b07231131e6d7d8174ff807dde17b7efffe)
++++ src/app/index.js	(date 1530282774672)
+@@ -9,6 +9,7 @@
  import { App, store as cmfstore, actions } from '@talend/react-cmf';
  import { browserHistory } from 'react-router';
  import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
@@ -19,7 +13,7 @@ index 904335e..3ce4652 100644
  
  import configure from './configure';
  import appReducer from './reducers';
-@@ -28,7 +29,7 @@ cmfstore.setRouterMiddleware(routerMiddleware(browserHistory));
+@@ -28,7 +29,7 @@
  /**
   * Register your app reducers
   */
@@ -28,6 +22,3 @@ index 904335e..3ce4652 100644
  
  /**
   * Fetch the CMF settings and configure the CMF app
--- 
-2.7.2.windows.1
-

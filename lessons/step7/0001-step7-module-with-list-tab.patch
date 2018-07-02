@@ -1,0 +1,192 @@
+Index: src/app/components/CHomeListView/CHomeListView.component.js
+===================================================================
+--- src/app/components/CHomeListView/CHomeListView.component.js	(date 1530535671000)
++++ src/app/components/CHomeListView/CHomeListView.component.js	(date 1530535671000)
+@@ -1,25 +0,0 @@
+-import React from 'react';
+-import PropTypes from 'prop-types';
+-import {HomeListView as BareHomeListView} from '@talend/react-containers';
+-import {Inject} from '@talend/react-cmf';
+-import omit from 'lodash/omit';
+-
+-function CHomeListView(props) {
+-    const listComponent = <Inject component={props.list.component}/>;
+-    return (
+-        <BareHomeListView
+-            {...omit(props, ['list'])}
+-            list={listComponent}
+-            hasTheme
+-        >
+-            {props.children}
+-        </BareHomeListView>
+-    );
+-}
+-
+-CHomeListView.propTypes = {
+-    children: PropTypes.element,
+-    list: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired
+-};
+-
+-export default CHomeListView;
+Index: src/app/components/CHomeListView/index.js
+===================================================================
+--- src/app/components/CHomeListView/index.js	(date 1530535671000)
++++ src/app/components/CHomeListView/index.js	(date 1530535671000)
+@@ -1,3 +0,0 @@
+-import CHomeListView from './CHomeListView.component';
+-
+-export default CHomeListView;
+Index: src/app/components/SLHomeView/SLHomeView.component.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/SLHomeView/SLHomeView.component.js	(date 1530535685359)
++++ src/app/components/SLHomeView/SLHomeView.component.js	(date 1530535685359)
+@@ -0,0 +1,94 @@
++import PropTypes from 'prop-types';
++import React from 'react';
++import {Inject, Layout, HeaderBar} from '@talend/react-components';
++import {Inject as CMFInject, cmfConnect} from '@talend/react-cmf';
++import {List, SidePanel, TabBar} from '@talend/react-containers';
++
++function getContent(Component, props) {
++    if (React.isValidElement(props)) {
++        return props;
++    }
++    return <Component {...props} />;
++}
++
++function wrapChildren(children) {
++    if (children && children.props && children.props.children) {
++        return [children, ...wrapChildren(children.props.children)];
++    } else if (children && !children.props) {
++        // this happens ony in tests with enzyme's mount
++        return [];
++    }
++    return [children];
++}
++
++function SLHomeView({getComponent, id, hasTheme, sidepanel, list, header, children, state}) {
++    if (!sidepanel || !list) {
++        return null;
++    }
++    let drawers = children || [];
++    if (!Array.isArray(drawers)) {
++        drawers = wrapChildren(drawers);
++    }
++
++    const Renderers = Inject.getAll(getComponent, {HeaderBar, SidePanel, List});
++    const listComponent = <CMFInject component={list.component}></CMFInject>;
++    const tabProps = {
++        id: 'sltab',
++        items: [
++            {
++                id: 'tab-bar-action-1',
++                key: 'info',
++                label: 'Info',
++                'data-feature': 'action.1',
++            },
++            {
++                id: 'tab-bar-action-2',
++                key: 'metadata',
++                label: 'Metadata',
++                'data-feature': 'action.2',
++            }
++        ],
++        selectedKey: 'info',
++    };
++    let currentTab = 'info';
++    const tabBarState = TabBar.getState(state, 'sltab');
++    if(tabBarState.size > 0){
++        currentTab = tabBarState.get('selectedKey');
++    }
++
++    const tabDivHeight = "300px";
++    return (
++        <Layout
++            id={id}
++            hasTheme={hasTheme}
++            mode="TwoColumns"
++            header={getContent(Renderers.HeaderBar, header)}
++            one={getContent(Renderers.SidePanel, sidepanel)}
++            drawers={drawers}
++        >
++            {getContent(Renderers.List, listComponent)}
++            <TabBar {...tabProps} />
++            {currentTab === 'info' ? <div style={{height:tabDivHeight}}>This is info tab</div> :
++                <div style={{height:tabDivHeight}}>This is metadata tab</div>}
++        </Layout>
++    );
++}
++
++SLHomeView.displayName = 'SLHomeView';
++SLHomeView.propTypes = {
++    getComponent: PropTypes.func,
++    id: PropTypes.string,
++    hasTheme: PropTypes.bool,
++    header: PropTypes.oneOfType([PropTypes.element, PropTypes.object]),
++    sidepanel: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired,
++    list: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired,
++    children: PropTypes.node,
++};
++const mapStateToProps = (state) => ({
++    selectedKey: state.myExample.selectedKey,
++    componentsState: state.cmf.components,
++    state: state
++});
++
++export default cmfConnect({mapStateToProps})(SLHomeView);
++
+Index: src/assets/settings.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/assets/settings.json	(date 1530535671000)
++++ src/assets/settings.json	(date 1530535758927)
+@@ -185,7 +185,7 @@
+       },
+       {
+         "path": "servicelocator",
+-        "component": "CHomeListView",
++        "component": "SLHomeView",
+         "view": "servicelocator"
+       }
+     ]
+Index: src/app/configure.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/configure.js	(date 1530535671000)
++++ src/app/configure.js	(date 1530535802961)
+@@ -5,7 +5,7 @@
+ import {fetchDataStores} from './actions/datastore';
+ import {fetchServicelocators, refreshServicelocators} from './actions/servicelocator';
+ import App from './components/App';
+-import CHomeListView from './components/CHomeListView';
++import SLHomeView from './components/SLHomeView';
+ import ServiceLocatorComponent from './components/ServiceLocator';
+ 
+ const registerComponent = cmf.component.register;
+@@ -18,7 +18,7 @@
+          */
+         registerAllContainers();
+         registerComponent('App', App);
+-        registerComponent('CHomeListView', CHomeListView);
++        registerComponent('SLHomeView', SLHomeView);
+         registerComponent('ServiceLocatorComponent', ServiceLocatorComponent);
+ 
+         /**
+Index: src/app/components/SLHomeView/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/SLHomeView/index.js	(date 1530535685348)
++++ src/app/components/SLHomeView/index.js	(date 1530535685348)
+@@ -0,0 +1,3 @@
++import SLHomeView from './SLHomeView.component';
++
++export default SLHomeView;
