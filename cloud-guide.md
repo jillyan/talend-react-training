@@ -6,7 +6,7 @@
  You could apply a trial user to play it.
  
  ## concrete products
-management console: https://tmc.us.cloud.talend.com  
+management console: https://tmc.us.cloud.talend.com (git repository https://github.com/Talend/management-console.git)  
 data prepare: https://tdp.us.cloud.talend.com/  
 data stewardship: https://tds.us.cloud.talend.com  
 integration cloud: https://ipaas.us.cloud.talend.com/ipaas/  
