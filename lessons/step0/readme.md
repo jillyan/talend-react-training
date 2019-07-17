@@ -16,7 +16,7 @@ Redux manage React props and state with map reduce.
 A UI event(click,input...) will send an action, which will be mapped to a reducer. The reducer creates a new state, then the new state is sent back to UI as props. This is how UI is changed.
 
 ### Steps detail:
-1. Components are given callback functions as props, which they call when a UI event happens.
+1. Components are given callback functions which are called when a UI event happens.
 2. Those callbacks create and dispatch actions based on the event.
-3. Reducers process the actions, computing the new state.The new state of the whole application goes into a single store.
+3. Reducers receive the actions, and create new state according to business logic. The new state of the whole application goes into a single store.
 4. Components receive the new state as props and re-render themselves where needed.
