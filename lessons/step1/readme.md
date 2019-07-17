@@ -9,7 +9,8 @@ git apply --whitespace=fix 0001-step1-add-a-module.patch
 ![step1.png](step1.png)
 
 ## 1. set configurations in src/assets/settings.json.
-Add action configuration in src/assets/settings.json.(P.S what is action? We can simple consider it as a user event, like click, drag and so on.)
+Add action configuration in src/assets/settings.json.
+Action means the user event, like click, drag and so on.
 
 ```
 "menu:servicelocator": {
@@ -25,7 +26,8 @@ Add action configuration in src/assets/settings.json.(P.S what is action? We can
 }
 ```
 
-Add view configuration in src/assets/settings.json. (P.S we can define side panel, header bar, action dropdown, list and so on.)
+Add view configuration in src/assets/settings.json. 
+We can define side panel, header bar, action dropdown, list and so on.
 
 ```
 "servicelocator": {
